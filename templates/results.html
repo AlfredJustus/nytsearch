@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <div class="header">
+        <a  class="logo-link" href="/">
+            <img class="logo" alt="NYT Logo" src="https://lh4.googleusercontent.com/rAu6Oi1vFIlx747JxosPs9qs3vd08vqU49L1eLWojiWrIIAj5xDEcdSwYS_AeGLwSGR6HmWnkeKk7DZJN3oReVQOop8b7q29kzkC3DEAS3XRtv828wTac8OPlPsdQwgOwd573PaF">
+        </a>
+        <div class="smallsearch-container">
+            <form method="post">
+                <input id="small-search" type="text" name="search_term" placeholder="Enter search term">
+                <svg id="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M21 19l-5.2-5.2c1.1-1.4 1.8-3.1 1.8-5C17.6 4.5 14.1 1 9.8 1S2 4.5 2 8.8s3.5 7.8 7.8 7.8c1.9 0 3.6-.6 5-1.7L19 21l2-2zM9.8 14c-2.9 0-5.2-2.3-5.2-5.2S6.9 3.7 9.8 3.7 15 6 15 9s-2.3 5.3-5.2 5.3z"></path>
+                </svg>            
+            </form>
+        </div>
+    </div>
+    <script>
+        const searchInput = document.getElementById('small-search');
+        const searchContainer = document.querySelector('.smallsearch-container');
+    
+        // Add an event listener to check for input value change
+        searchInput.addEventListener('input', () => {
+            if (searchInput.value.trim() !== "") {
+                searchContainer.classList.add('active');
+            } else {
+                searchContainer.classList.remove('active');
+            }
+        });
+    
+        // Ensure the search field stays visible when it's focused
+        searchInput.addEventListener('focus', () => {
+            searchContainer.classList.add('active');
+        });
+    
+        searchInput.addEventListener('blur', () => {
+            if (searchInput.value.trim() === "") {
+                searchContainer.classList.remove('active');
+            }
+        });
+    </script>
+    <div>
+        {% if results %}
+            <h2>Search Results for "{{ search_term }}"</h2>
+            <div class="flex-container">
+                {% for result in results %}
+                    <a href="{{ result.url }}" target="_blank">
+                        <div class="result">
+                            <p>{{ result.headline }}</p>
+                        </div>
+                    </a>
+                {% endfor %}
+                </div>
+        {% else %}
+            <h2>No results for "{{ search_term }}"</h2>
+        {% endif %}
+    </div>
+</body>
+</html>
